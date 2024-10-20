@@ -37,11 +37,11 @@ app.use("/vendor",vendorRoutes)
 app.use("/firm",firmRoutes)
 app.use("/product",productRoutes)
 app.use("/uploads",express.static("uploads"))
-let port=3000;
+let port=process.env.port||3000;
 
-// app.use("/",(req,res)=>{
-//     res.send("hello guys")
-// })
+app.use("/",(req,res)=>{
+    res.send("<h1>Welcome to Online Restaurant</h1>")
+})
 
 app.listen(port,()=>console.log(`server id running on port ${port}`))
 //git remote remove origin
