@@ -44,7 +44,7 @@ app.use("/uploads",express.static("uploads"))
 let port=process.env.port||3000;
 
 app.use("/",(req,res)=>{
-    res.send("<h1>Welcome to Online Restaurant</h1>")
+    res.send("Welcome to Online Restaurant")
 })
 
 app.listen(port,()=>console.log(`server id running on port ${port}`))
