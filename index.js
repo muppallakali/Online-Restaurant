@@ -2,12 +2,15 @@ let express=require("express")
 let app=express()
 let env=require("dotenv")
 env.config()
+let cors=require("cors")
+app.use(cors())
 let mongoose=require("mongoose")
 let vendorRoutes=require("./routes/vendor_routes")
 let bodyParser=require("body-parser")
 let firmRoutes=require("./routes/firmRoutes")
 let productRoutes=require("./routes/productRoutes")
 let path=require("path")
+
 
 //http://localhost:3000/vendor/register-post
 //http://localhost:3000/vendor/login-post
@@ -37,6 +40,7 @@ app.use("/vendor",vendorRoutes)
 app.use("/firm",firmRoutes)
 app.use("/product",productRoutes)
 app.use("/uploads",express.static("uploads"))
+
 let port=process.env.port||3000;
 
 app.use("/",(req,res)=>{

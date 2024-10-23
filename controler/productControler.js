@@ -1,6 +1,7 @@
 const Product=require("../modules/Products")
 const Firm=require("../modules/firm_modules")
 const multer=require("multer")
+const path=require("path")
 
 
 const storage=multer.diskStorage({

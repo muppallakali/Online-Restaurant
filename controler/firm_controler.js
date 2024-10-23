@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose")
 const Firm=require("../modules/firm_modules")
 const Vendor=require("../modules/vendor_modules")
 const multer=require("multer")
+const path=require("path")
 
 
 const storage=multer.diskStorage({
