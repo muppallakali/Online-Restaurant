@@ -6,10 +6,10 @@ const path=require("path")
 
 const storage=multer.diskStorage({
     destination:function(req,file,cb){
-        cb(null,"uplods/")
+        cb(null,"uploads/")
     },
     filename:function(req,file,cb){
-        cb(null,Date.now()+pathToFileURL.extname(file.originalname))
+        cb(null,Date.now()+path.extname(file.originalname))
     }
 })
 const upload = multer({ storage: storage });
@@ -52,17 +52,21 @@ const getProductByFirm=async (req,res)=>{
         res.status(500).json({error:"error in product to firm"})
     }
 }
-const deleteProductById=async(req,res)=>{
-    try{
-        const productId=req.params.productId
-        const deletedProduct=await Product.findByIdAndDelete(productId)
-        if(!deletedProduct){
-            return res.status(500).json({error:"No product found to delete"})
+const deleteProductById = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const deletedProduct = await Product.findByIdAndDelete(productId);
+
+        if (!deletedProduct) {
+            return res.status(404).json({ error: "No product found to delete" });
         }
+
+        // Send success response
+        res.status(200).json({ message: "Product deleted successfully" });
+    } catch (error) {
+        console.error("Error in deleteProductById:", error);
+        res.status(500).json({ error: "Error in deleteProductById" });
     }
-    catch(error){
-        console.log(error)
-        res.status(500).json({error:"error in deleteProductById"})
-    }
-}
+};
+
 module.exports={addProduct:[upload.single("image"),addProduct],getProductByFirm,deleteProductById}

@@ -36,8 +36,9 @@ let vendorLogin = async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials" });
         }
         let token = jwt.sign({ vendorId: vendor._id }, secretKey, { expiresIn: "1h" });
-        res.status(200).json({ success: "Login success", token });
-        console.log(email, "this is token:", token);
+        const vendorId=vendor._id
+        res.status(200).json({ success: "Login success", token,vendorId });
+        console.log(email, "this is token:", token,vendorId);
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -53,19 +54,30 @@ let getAllVendors = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
-const getVendorById=async(req,res)=>{
-    const vendorId=req.params.id
-    try{
-        const vendor=await Vendor.findById(vendorId).populate("firm")
-        if(!vendor){
-            return res.status(404).json({error:"vendor not found"})
+const getVendorById = async (req, res) => {
+    const vendorId = req.params.id;
+    try {
+        const vendor = await Vendor.findById(vendorId).populate("firm");
+        
+        if (!vendor) {
+            return res.status(404).json({ error: "Vendor not found" });
         }
-        res.status(200).json({vendor})
-    }
-    catch(error){
+        
+        const vendorFirmid = Array.isArray(vendor.firm) && vendor.firm.length > 0 
+            ? vendor.firm[0]._id 
+            : null;
+
+        if (!vendorFirmid) {
+            return res.status(404).json({ error: "Vendor firm not found" });
+        }
+
+        res.status(200).json({ vendorId, vendorFirmid, vendor });
+        console.log(vendorFirmid);
+    } catch (error) {
         console.error("Fetch vendorById error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
+
 
 module.exports = { vendorRegister, vendorLogin, getAllVendors,getVendorById };

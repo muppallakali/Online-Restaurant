@@ -19,15 +19,16 @@ let productSchema=new mongoose.Schema({
             }
         ]
     },
-    image:{
-        type:String
-    },
     bestSeller:{
-        type:String
+        type:Boolean
     },
     description:{
         type:String
     },
+    image:{
+        type:String
+    },   
+   
     firm:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"firm"
