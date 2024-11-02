@@ -16,7 +16,7 @@ const upload = multer({ storage: storage });
 
 const addProduct=async(req,res)=>{
     try{
-        const {productName,price,category,bestseller,description}=req.body
+        const {productName,price,category,bestSeller,description}=req.body
         const image=req.file?req.file.filename:undefined
         const firmid=req.params.firmid
         const firm=await Firm.findById(firmid)
@@ -24,7 +24,7 @@ const addProduct=async(req,res)=>{
             return res.status(404).json({error:"No firm found"})
         }
         const product=new Product({
-            productName,price,category,bestseller,description,image,firm:firm._id
+            productName,price,category,bestSeller,description,image,firm:firm._id
         })
         const savedProduct=await product.save()
         firm.products.push(savedProduct)
